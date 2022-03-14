@@ -17,7 +17,7 @@ void main()
     {
         u64 now = millis();
 
-        if (last_blink + (gpio_read(BTN) ? 1000 : 100) < now)
+        if (last_blink + (gpio_read(BTN) ? 500 : 50) < now)
         {
             gpio_write(LED, !gpio_read(LED));
             last_blink = now;

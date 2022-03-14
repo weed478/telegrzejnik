@@ -3,11 +3,11 @@
 
 #include "defs.h"
 
-typedef u64 reg_addr_t;
+typedef u32 reg_addr_t;
 
 enum
 {
-    PERIPHERAL_BASE = 0xfe000000ULL,
+    PERIPHERAL_BASE = 0xfe000000,
     
     // GPIO
 
