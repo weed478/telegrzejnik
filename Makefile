@@ -7,6 +7,7 @@ OBJCOPY := arm-none-eabi-objcopy
 OBJDUMP := arm-none-eabi-objdump
 
 SRCS := $(wildcard *.c *.s)
+HDRS := $(wildcard *.h)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 CCFLAGS := -Wall -Werror -Os -nostdlib -mcpu=cortex-a72#+nosimd
@@ -31,7 +32,7 @@ dump: $(OUT_DIR)/dump.txt
 clean:
 	rm -rf $(BUILD_DIR) $(OUT_DIR)
 
-$(BUILD_DIR)/%.c.o: %.c
+$(BUILD_DIR)/%.c.o: %.c $(HDRS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
