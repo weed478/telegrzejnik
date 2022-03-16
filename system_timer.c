@@ -15,3 +15,15 @@ u64 micros()
     u64 hi = REG(SYSTEM_TIMER_CHI);
     return (hi << 32) | lo;
 }
+
+void delay_ms(u64 ms)
+{
+    u64 stop = micros() + ms * 1000;
+    while (micros() < stop);
+}
+
+void delay_us(u64 us)
+{
+    u64 stop = micros() + us;
+    while (micros() < stop);
+}

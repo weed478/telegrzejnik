@@ -7,8 +7,14 @@ typedef uint gpio_num_t;
 
 typedef enum gpio_function_t
 {
-    GPIO_FUNCTION_IN  = 0,
-    GPIO_FUNCTION_OUT = 1,
+    GPIO_FUNCTION_IN   = 0b000,
+    GPIO_FUNCTION_OUT  = 0b001,
+    GPIO_FUNCTION_ALT0 = 0b100,
+    GPIO_FUNCTION_ALT1 = 0b101,
+    GPIO_FUNCTION_ALT2 = 0b110,
+    GPIO_FUNCTION_ALT3 = 0b111,
+    GPIO_FUNCTION_ALT4 = 0b011,
+    GPIO_FUNCTION_ALT5 = 0b010,
 } gpio_function_t;
 
 typedef enum gpio_pull_t

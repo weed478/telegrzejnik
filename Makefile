@@ -1,17 +1,25 @@
 BUILD_DIR := build
 OUT_DIR := out
 
-CC := arm-none-eabi-gcc
-LD := arm-none-eabi-ld
-OBJCOPY := arm-none-eabi-objcopy
-OBJDUMP := arm-none-eabi-objdump
+LLVM_PATH := /opt/homebrew/opt/llvm/bin
+CC := $(LLVM_PATH)/clang --target=arm-arm-none-eabi
+LD := $(CC)
+OBJCOPY := $(LLVM_PATH)/llvm-objcopy
+OBJDUMP := $(LLVM_PATH)/llvm-objdump
 
 SRCS := $(wildcard *.c *.s)
 HDRS := $(wildcard *.h)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-CCFLAGS := -Wall -Werror -Os -nostdlib -mcpu=cortex-a72#+nosimd
-CFLAGS := $(CCFLAGS) -ffreestanding -nostdinc -g
+OLEVEL := 0
+
+# BCM2836
+# CPU := cortex-a53
+# BCM2711
+CPU := cortex-a72
+
+CCFLAGS := -Wall -Werror -O$(OLEVEL) -nostdlib -mcpu=$(CPU)+nofp+nomve -mfpu=none
+CFLAGS := $(CCFLAGS) -ffreestanding -nostdinc
 SFLAGS := $(CCFLAGS)
 LDFLAGS := -nostdlib
 
@@ -49,4 +57,5 @@ $(OUT_DIR)/kernel.img: $(BUILD_DIR)/kernel.elf
 	$(OBJCOPY) -O binary $< $@
 
 $(OUT_DIR)/dump.txt: $(BUILD_DIR)/kernel.elf
+	@mkdir -p $(dir $@)
 	@$(OBJDUMP) -d $< > $@

@@ -7,6 +7,9 @@ typedef u32 reg_addr_t;
 
 enum
 {
+    // BCM2836
+    // PERIPHERAL_BASE = 0x3f000000,
+    // BCM2711
     PERIPHERAL_BASE = 0xfe000000,
     
     // GPIO
@@ -41,6 +44,39 @@ enum
     SYSTEM_TIMER_CS = SYSTEM_TIMER_BASE + 0x00,
     SYSTEM_TIMER_CLO = SYSTEM_TIMER_BASE + 0x04,
     SYSTEM_TIMER_CHI = SYSTEM_TIMER_BASE + 0x08,
+
+    // PWM0
+
+    PWM0_BASE = PERIPHERAL_BASE + 0x20c000,
+
+    PWM0_CTL  = PWM0_BASE + 0x00,
+    PWM0_STA  = PWM0_BASE + 0x04,
+    PWM0_DMAC = PWM0_BASE + 0x08,
+    PWM0_RNG1 = PWM0_BASE + 0x10,
+    PWM0_DAT1 = PWM0_BASE + 0x14,
+    PWM0_FIF1 = PWM0_BASE + 0x18,
+    PWM0_RNG2 = PWM0_BASE + 0x20,
+    PWM0_DAT2 = PWM0_BASE + 0x24,
+
+    // PWM1
+
+    PWM1_BASE = PERIPHERAL_BASE + 0x20c800,
+
+    PWM1_CTL  = PWM1_BASE + 0x00,
+    PWM1_STA  = PWM1_BASE + 0x04,
+    PWM1_DMAC = PWM1_BASE + 0x08,
+    PWM1_RNG1 = PWM1_BASE + 0x10,
+    PWM1_DAT1 = PWM1_BASE + 0x14,
+    PWM1_FIF1 = PWM1_BASE + 0x18,
+    PWM1_RNG2 = PWM1_BASE + 0x20,
+    PWM1_DAT2 = PWM1_BASE + 0x24,
+
+    // CM
+
+    CM_BASE = PERIPHERAL_BASE + 0x101000,
+
+    CM_PWMCTL = CM_BASE + 0xa0,
+    CM_PWMDIV = CM_BASE + 0xa4,
 };
 
 #define REG(reg) (*(volatile uint*) (reg))

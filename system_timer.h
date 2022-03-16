@@ -7,4 +7,8 @@ u64 millis();
 
 u64 micros();
 
+void delay_ms(u64 ms);
+
+void delay_us(u64 us);
+
 #endif
