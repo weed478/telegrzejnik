@@ -7,11 +7,11 @@ LD := $(CC)
 OBJCOPY := $(LLVM_PATH)/llvm-objcopy
 OBJDUMP := $(LLVM_PATH)/llvm-objdump
 
-SRCS := $(wildcard *.c *.s)
+SRCS := $(wildcard *.c *.S)
 HDRS := $(wildcard *.h)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-OLEVEL := 0
+OLEVEL := s
 
 # BCM2836
 # CPU := cortex-a53
@@ -44,7 +44,7 @@ $(BUILD_DIR)/%.c.o: %.c $(HDRS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(BUILD_DIR)/%.s.o: %.s
+$(BUILD_DIR)/%.S.o: %.S
 	@mkdir -p $(dir $@)
 	$(CC) $(SFLAGS) -c -o $@ $<
 
