@@ -15,4 +15,8 @@ typedef __UINT64_TYPE__ u64;
 
 typedef unsigned int uint;
 
+typedef u32 reg_addr_t;
+
+#define REG(reg) (*(volatile uint*) (reg))
+
 #endif
