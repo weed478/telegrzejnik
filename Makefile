@@ -15,10 +15,13 @@ OLEVEL := s
 
 # BCM2836
 # CPU := cortex-a53
+# BCM := 2836
+
 # BCM2711
 CPU := cortex-a72
+BCM := 2711
 
-CCFLAGS := -Wall -Werror -O$(OLEVEL) -nostdlib -mcpu=$(CPU)+nofp+nomve -mfpu=none
+CCFLAGS := -Wall -Werror -O$(OLEVEL) -nostdlib -mcpu=$(CPU)+nofp+nomve -mfpu=none -DBCM$(BCM)
 CFLAGS := $(CCFLAGS) -ffreestanding -nostdinc
 SFLAGS := $(CCFLAGS)
 LDFLAGS := -nostdlib

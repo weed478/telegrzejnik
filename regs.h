@@ -1,10 +1,13 @@
 #ifndef MYKERNEL_REGS_H
 #define MYKERNEL_REGS_H
 
-// BCM2836
-// #define PERIPHERAL_BASE (0x3f000000)
-// BCM2711
+#ifdef BCM2836
+#define PERIPHERAL_BASE (0x3f000000)
+#endif
+
+#ifdef BCM2711
 #define PERIPHERAL_BASE (0xfe000000)
+#endif
 
 // GPIO
 

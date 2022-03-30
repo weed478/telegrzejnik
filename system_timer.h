@@ -3,12 +3,12 @@
 
 #include "defs.h"
 
-u64 millis();
+u32 millis();
 
-u64 micros();
+u32 micros();
 
-void delay_ms(u64 ms);
+void delay_ms(u32 ms);
 
-void delay_us(u64 us);
+void delay_us(u32 us);
 
 #endif
