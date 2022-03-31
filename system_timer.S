@@ -11,7 +11,7 @@
 .global delay_ms
 @ in: r0 = ms
 delay_ms:
-    mov r1, 1000
+    mov r1, #1000
     mul r0, r0, r1
     b delay_us
 
@@ -71,7 +71,7 @@ millis:
     bl micros
 
     @ micros /= 1000
-    mov r1, 1000
+    mov r1, #1000
     udiv r0, r0, r1
 
     pop {pc}

@@ -20,29 +20,29 @@ stepper_init:
     @ r4 = pin0
     mov r4, r0
     @ r5 = pin offset
-    mov r5, 0
+    mov r5, #0
 
     stepper_init_loop:
         @ gpio_set_function(pin0 + offset, GPIO_FUNCTION_OUT)
         add r0, r4, r5
-        mov r1, GPIO_FUNCTION_OUT
+        mov r1, #GPIO_FUNCTION_OUT
         bl gpio_set_function
 
         @ offset++
-        add r5, r5, 1
+        add r5, r5, #1
 
         @ if offset < 4
         @   again
-        cmp r5, 4
+        cmp r5, #4
         blo stepper_init_loop
 
     @ stepper_set(pin0, 0)
     mov r0, r4
-    mov r1, 0
+    mov r1, #0
     bl stepper_set
 
     @ return initial state
-    mov r0, 0
+    mov r0, #0
 
     pop {r4-r5, pc}
 
@@ -67,7 +67,7 @@ stepper_step:
 
     stepper_step_loop:
         @ steps cmp 0
-        cmp r6, 0
+        cmp r6, #0
 
         @ if steps == 0
         @   return
@@ -76,17 +76,17 @@ stepper_step:
         @ if steps > 0
         @   state++
         @   steps--
-        addgt r5, r5, 1
-        subgt r6, r6, 1
+        addgt r5, r5, #1
+        subgt r6, r6, #1
 
         @ if steps < 0
         @   state--
         @   steps++
-        sublt r5, r5, 1
-        addlt r6, r6, 1
+        sublt r5, r5, #1
+        addlt r6, r6, #1
 
         @ state %= 4
-        and r5, r5, 0b11
+        and r5, r5, #0b11
 
         @ r0 = pin0
         mov r0, r4
@@ -95,7 +95,7 @@ stepper_step:
         bl stepper_set
 
         @ step delay
-        mov r0, STEP_DELAY_US
+        mov r0, #STEP_DELAY_US
         bl delay_us
 
         b stepper_step_loop
@@ -113,9 +113,9 @@ stepper_step:
 @ in: r0 = pin0
 @     r1 = state [0-3]
 stepper_set:
-    mov r2, 0b00110011
+    mov r2, #0b00110011
     lsl r1, r2, r1
-    lsr r1, r1, 4
+    lsr r1, r1, #4
     b stepper_set_bits
 
 
@@ -133,27 +133,27 @@ stepper_set_bits:
     mov r5, r1
 
     @ r0 = pin0
-    add r0, r4, 0
+    add r0, r4, #0
     @ r1 = bit 3 of mask
-    and r1, r5, 8
+    and r1, r5, #8
     bl gpio_write
 
     @ r0 = pin1
-    add r0, r4, 1
+    add r0, r4, #1
     @ r1 = bit 2 of mask
-    and r1, r5, 4
+    and r1, r5, #4
     bl gpio_write
 
     @ r0 = pin2
-    add r0, r4, 2
+    add r0, r4, #2
     @ r1 = bit 1 of mask
-    and r1, r5, 2
+    and r1, r5, #2
     bl gpio_write
 
     @ r0 = pin3
-    add r0, r4, 3
+    add r0, r4, #3
     @ r1 = bit 0 of mask
-    and r1, r5, 1
+    and r1, r5, #1
     bl gpio_write
 
     pop {r4-r5, pc}
