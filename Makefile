@@ -33,6 +33,7 @@ all: $(OUT_DIR)/kernel.img $(OUT_DIR)/dump.txt
 flash: $(OUT_DIR)/kernel.img
 	@echo 'Flashing...'
 	@cp $< /Volumes/boot/kernel.img
+	@diskutil unmount /Volumes/boot > /dev/null
 	@echo 'Done'
 
 .PHONY: dump
