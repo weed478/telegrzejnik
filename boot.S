@@ -3,6 +3,16 @@
 .global _start
 
 _start:
+    @ current core detection
+
+    @ r0 = MPIDR
+    mrc     p15, 0, r0, c0, c0, 5
+    @ extract CPU ID from MPIDR[1:0]
+    ands    r0, #0b11
+    @ if CPU ID != 0
+    @   halt
+    bne     halt
+
     @ setup stack before code
     ldr     sp, =_start
 
