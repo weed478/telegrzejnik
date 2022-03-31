@@ -1,17 +1,17 @@
 BUILD_DIR := build
 OUT_DIR := out
 
-LLVM_PATH := /opt/homebrew/opt/llvm/bin
-CC := $(LLVM_PATH)/clang --target=arm-arm-none-eabi
-LD := $(CC)
-OBJCOPY := $(LLVM_PATH)/llvm-objcopy
-OBJDUMP := $(LLVM_PATH)/llvm-objdump
+TOOLCHAIN := arm-none-eabi
+CC := $(TOOLCHAIN)-gcc
+LD := $(TOOLCHAIN)-ld
+OBJCOPY := $(TOOLCHAIN)-objcopy
+OBJDUMP := $(TOOLCHAIN)-objdump
 
 SRCS := $(wildcard *.c *.S)
 HDRS := $(wildcard *.h)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-OLEVEL := s
+OLEVEL := 0
 
 # BCM2836
 # CPU := cortex-a53
@@ -21,7 +21,7 @@ OLEVEL := s
 CPU := cortex-a72
 BCM := 2711
 
-CCFLAGS := -Wall -Werror -O$(OLEVEL) -nostdlib -mcpu=$(CPU)+nofp+nomve -mfpu=none -DBCM$(BCM)
+CCFLAGS := -Wall -Werror -O$(OLEVEL) -nostdlib -mcpu=$(CPU) -DBCM$(BCM)
 CFLAGS := $(CCFLAGS) -ffreestanding -nostdinc
 SFLAGS := $(CCFLAGS)
 LDFLAGS := -nostdlib
