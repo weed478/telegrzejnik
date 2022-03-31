@@ -1,22 +1,17 @@
 #include "defs.h"
 #include "system_timer.h"
 #include "stepper.h"
-#include "gpio.h"
+#include "pins.h"
 
-#define STEPPER_PIN0 (14)
-#define LED_PIN (18)
+void stepper_set_pos(int pos);
 
 void main()
 {
-    uint state = stepper_init(STEPPER_PIN0);
-    gpio_set_function(LED_PIN, GPIO_FUNCTION_OUT);
+    stepper_init(STEPPER_PIN0);
 
     for (;;)
     {
-        state = stepper_step(STEPPER_PIN0, state, 100);   
-        gpio_write(LED_PIN, 0);
-
-        state = stepper_step(STEPPER_PIN0, state, -100);
-        gpio_write(LED_PIN, 1);
+        stepper_set_pos(512);
+        stepper_set_pos(-512);
     }
 }
