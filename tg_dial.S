@@ -5,7 +5,8 @@
 
 .global tg_dial_init
 .global tg_dial_home
-.global tg_dial_set_steps
+.global tg_dial_set_deg
+.global tg_dial_set_num
 
 
 
@@ -30,13 +31,8 @@ tg_dial_init:
     @ gpio_set_function(STEPPER_HOME_PIN, GPIO_FUNCTION_IN)
     ldr r0, =STEPPER_HOME_PIN
     ldr r1, =GPIO_FUNCTION_IN
-    bl gpio_set_function
-
-    @ gpio_set_pull(STEPPER_HOME_PIN, GPIO_PULL_UP)
-    ldr r0, =STEPPER_HOME_PIN
-    ldr r1, =GPIO_PULL_UP
     pop {lr}
-    b gpio_set_pull
+    b gpio_set_function
 
 
 
@@ -118,6 +114,30 @@ tg_dial_home:
 
 @ -------------------------
 
+@ in: r0 = num
+tg_dial_set_num:
+    ldr r1, =-2048
+    mul r0, r0, r1
+    ldr r1, =10
+    sdiv r0, r0, r1 
+    b set_steps
+
+
+
+@ -------------------------
+
+@ in: r0 = deg
+tg_dial_set_deg:
+    ldr r1, =-2048
+    mul r0, r0, r1
+    ldr r1, =360
+    sdiv r0, r0, r1
+    b set_steps
+
+
+
+@ -------------------------
+
 read_home_switch:
     @ return gpio_read(STEPPER_HOME_PIN)
     ldr r0, =STEPPER_HOME_PIN
@@ -156,7 +176,7 @@ step:
 @ -------------------------
 
 @ in: r0 = pos
-tg_dial_set_steps:
+set_steps:
     push {r4-r6, lr}
 
     @ load variable addresses
