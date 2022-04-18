@@ -1,7 +1,7 @@
 #include "regs.h"
 #include "gpio_defs.h"
 
-#define STEP_DELAY_US (3000)
+#define STEP_DELAY_US (5000)
 
 
 

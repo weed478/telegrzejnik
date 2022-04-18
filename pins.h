@@ -4,4 +4,6 @@
 #define STEPPER_PIN0 (14)
 #define STEPPER_HOME_PIN (18)
 
+#define DTMF_PIN0 (19)
+
 #endif
