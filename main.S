@@ -13,18 +13,19 @@ main:
     bl tg_dial_home
     
     main_loop:
-        bl tg_dtmf_read_blocking
+        @ r4 = deg
+        bl tg_dtmf_read_number_blocking
         mov r4, r0
 
-        @ level = 0x0800 * num / 15
+        @ level = 0x0800 * deg / 360
         mov r0, #0x0800
         mul r0, r0, r4
-        mov r1, #15
+        mov r1, #360
         udiv r0, r0, r1
         bl tg_led_set
 
         mov r0, r4
-        bl tg_dial_set_num
+        bl tg_dial_set_deg
 
         b main_loop
 
