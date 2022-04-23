@@ -44,11 +44,11 @@ tg_led_set:
 
     @ for counter <- [LEDS_COUNT..1]
     loop:
-        @ if (counter << 8) < level
+        @ if (counter << 8) <= level
         @   led = 100%
         mov r0, r6, lsl #8
         cmp r0, r4
-        blt led_100
+        ble led_100
 
         @ else if counter - 1 == (level >> 8)
         @   led = (level - (counter << 8))% ???
