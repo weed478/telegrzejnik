@@ -2,6 +2,10 @@
 
 
 
+#define WAIT_TIMEOUT_US (3000000)
+
+
+
 .global dtmf_init
 .global dtmf_read_number_blocking
 
@@ -43,8 +47,9 @@ dtmf_init:
 @ -------------------------
 
 @ in: r0 = pin0
+@ out: r0 = 0 OK | 1 timeout
 dtmf_wait:
-    push {r4, lr}
+    push {r4-r5, lr}
 
     @ r4 = data ready pin (pin4)
     add r4, r0, #4
@@ -57,7 +62,22 @@ dtmf_wait:
         cmp r0, #0
         beq dtmf_wait_loop_high
 
+    @ r5 = start = micros()
+    bl micros
+    mov r5, r0
+
     dtmf_wait_loop_low:
+        @ r0 = now = micros()
+        bl micros
+        @ r0 = now - start
+        sub r0, r0, r5
+        @ if elapsed >= WAIT_TIMEOUT_US:
+        @   return 1
+        ldr r1, =WAIT_TIMEOUT_US
+        cmp r0, r1
+        mov r0, #1
+        popge {r4-r5, pc}
+
         @ r0 = gpio_read(data ready)
         mov r0, r4
         bl gpio_read
@@ -65,7 +85,8 @@ dtmf_wait:
         cmp r0, #0
         bne dtmf_wait_loop_low
 
-    pop {r4, pc}
+    mov r0, #0
+    pop {r4-r5, pc}
 
 
 
@@ -109,11 +130,14 @@ dtmf_read:
 @ -------------------------
 
 @ in: r0 = pin0
-@ out: r0 = dtmf code
+@ out: r0 = dtmf code | 16 timeout
 dtmf_read_blocking:
     push {r0, lr}
     bl dtmf_wait
+    cmp r0, #0
     pop {r0, lr}
+    movne r0, #16
+    bxne lr
     b dtmf_read
 
 
@@ -136,7 +160,12 @@ dtmf_read_number_blocking:
         mov r0, r5
         bl dtmf_read_blocking
 
-        @ dtmf code 10 = # (confirm)
+        @ if timeout: reset
+        cmp r0, #16
+        moveq r4, #0
+        beq dtmf_read_number_blocking_loop
+
+        @ dtmf code 12 = # (confirm)
         cmp r0, #12
         beq dtmf_read_number_blocking_confirm
 
