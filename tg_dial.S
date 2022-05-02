@@ -41,6 +41,9 @@ tg_dial_init:
 tg_dial_home:
     push {r4, lr}
 
+    @ r4 = home area width
+    mov r4, #0
+
     @ stage1 = leave home switch
     home_stage1:
         @ r0 = read home switch
@@ -76,8 +79,6 @@ tg_dial_home:
         b home_stage2
 
     @ stage3 = measure home area
-    @ r4 = home area width
-    ldr r4, =0
     home_stage3:
         @ r0 = read home switch
         bl read_home_switch
