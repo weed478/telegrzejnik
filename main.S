@@ -1,7 +1,3 @@
-.lcomm current_deg, 4
-
-
-
 .text
 
 @ -------------------------
@@ -16,19 +12,13 @@ main:
     
     bl tg_dial_home
 
-    @ current_deg = 0
-    mov r0, #0
-    ldr r1, =current_deg
-    str r0, [r1]
+    @ r5 = current_deg = 0
+    mov r5, #0
     
     main_loop:
         @ r4 = target_deg
         bl tg_dtmf_read_number_blocking
         mov r4, r0
-
-        @ r5 = current_deg
-        ldr r0, =current_deg
-        ldr r5, [r0]
 
         set_deg_loop:
             cmp r5, r4
