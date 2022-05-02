@@ -14,12 +14,12 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 OLEVEL := 0
 
 # BCM2836
-# CPU := cortex-a53
-# BCM := 2836
+CPU := cortex-a53
+BCM := 2836
 
 # BCM2711
-CPU := cortex-a72
-BCM := 2711
+# CPU := cortex-a72
+# BCM := 2711
 
 CCFLAGS := -Wall -Werror -O$(OLEVEL) -nostdlib -mcpu=$(CPU) -DBCM$(BCM)
 CFLAGS := $(CCFLAGS) -ffreestanding -nostdinc

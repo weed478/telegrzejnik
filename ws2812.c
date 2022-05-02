@@ -14,13 +14,13 @@ void ws2812_setup()
     delay_us(10);
 
     // stop and set source
-    //                                PLLD = 750 MHz
+    //                                PLLD = 500 MHz
     REG(CM_PWMCTL) = (0x5au << 24) | (6u << 0);
     delay_us(10);
 
     // set divider
     //                                int            frac
-    REG(CM_PWMDIV) = (0x5au << 24) | (300u << 12) | (0u << 0);
+    REG(CM_PWMDIV) = (0x5au << 24) | (200u << 12) | (0u << 0);
     delay_us(10);
     // f = 2.5 MHz
     
