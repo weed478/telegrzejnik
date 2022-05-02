@@ -20,6 +20,10 @@ main:
         bl tg_dtmf_read_number_blocking
         mov r4, r0
 
+        @ target_deg = min(target_deg, 360)
+        cmp r4, #360
+        movgt r4, #360
+
         set_deg_loop:
             cmp r5, r4
             @ current == target: done
